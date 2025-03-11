@@ -1,0 +1,55 @@
+{
+  "name": "react-echarts-library",
+  "version": "1.0.0",
+  "description": "A modern React wrapper for Apache ECharts with TypeScript support",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c --bundleConfigAsCjs",
+    "prepare": "npm run build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react",
+    "echarts",
+    "charts",
+    "visualization",
+    "react-component",
+    "typescript",
+    "data-visualization"
+  ],
+  "author": "",
+  "license": "MIT",
+  "peerDependencies": {
+    "echarts": "^5.4.0",
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
+  },
+  "dependencies": {
+    "@types/echarts": "^4.9.22"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-typescript": "^12.1.1",
+    "@types/react": "^19.0.1",
+    "@types/react-dom": "^19.0.2",
+    "echarts": "^5.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rollup": "^4.28.1",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "typescript": "^5.7.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yerzhansa/react-echarts-library.git"
+  },
+  "homepage": "https://github.com/yerzhansa/react-echarts-library",
+  "bugs": {
+    "url": "https://github.com/yerzhansa/react-echarts-library/issues"
+  }
+}
