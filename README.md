@@ -1,6 +1,6 @@
 # React ECharts Library
 
-A modern React wrapper for Apache ECharts with TypeScript support.
+A modern React wrapper for Apache ECharts v5 with TypeScript support.
 
 ## Installation
 
