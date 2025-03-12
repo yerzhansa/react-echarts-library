@@ -14,7 +14,7 @@ yarn add react-echarts-library echarts
 
 ```jsx
 import React from 'react';
-import EChartsReact from 'react-echarts-library';
+import { EChartsReact } from 'react-echarts-library';
 
 const SimpleChart = () => {
   const option = {
