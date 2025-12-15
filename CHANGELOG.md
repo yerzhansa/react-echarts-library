@@ -6,17 +6,22 @@ All notable changes to this project will be documented in this file.
 
 ### Features
 
-- V1.1.0 - Major feature update
-- **v1.2.0:** Add tree-shakeable core export and Storybook
+- **v1.2.0:** Add tree-shakeable core export (`react-echarts-library/core`) and Storybook setup
 
-### Ci
+- **v1.1.0:** Add production-ready features
+  - Container-based resize detection using ResizeObserver
+  - Efficient prop comparison with fast-deep-equal
+  - Loading state support (showLoading, loadingOption)
+  - Update control props (notMerge, lazyUpdate, shouldSetOption, replaceMerge)
+  - Renderer selection (Canvas/SVG) via opts prop
+  - HTML attribute passthrough (data-testid, aria-*, etc.)
+  - Ref access to ECharts instance (getEchartsInstance)
+  - Test suite with Vitest and Testing Library
+
+### CI
 
 - Add GitHub Actions for npm release with provenance
 - Switch to npm Trusted Publishing (OIDC)
-- Use only Node 26 in test matrix
-- Change the node-version to a stable version
-- Rename job to ci and remove matrix
-- Change Node.js version from 26 to 20c
+- Use Node.js 20 for CI pipeline
 - Use PAT for changelog PR creation
-
 
