@@ -1,0 +1,20 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## [unreleased]
+
+### Features
+
+- V1.1.0 - Major feature update
+- **v1.2.0:** Add tree-shakeable core export and Storybook
+
+### Ci
+
+- Add GitHub Actions for npm release with provenance
+- Switch to npm Trusted Publishing (OIDC)
+- Use only Node 26 in test matrix
+- Change the node-version to a stable version
+- Rename job to ci and remove matrix
+
+
