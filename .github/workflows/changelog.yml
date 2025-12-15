@@ -28,6 +28,7 @@ jobs:
       - name: Create PR with changelog
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.GH_PAT }}
           commit-message: 'docs: update changelog for ${{ github.ref_name }}'
           title: 'docs: update changelog for ${{ github.ref_name }}'
           body: 'Automated changelog update for release ${{ github.ref_name }}'
