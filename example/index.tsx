@@ -4,6 +4,10 @@ import { HashRouter, Routes, Route, Link } from "react-router-dom";
 import SimpleExample from "./SimpleExample";
 import ReactEchartsExample from "./ReactEchartsExample";
 import DashboardExample from "./DashboardExample";
+import LoadingStateExample from "./LoadingStateExample";
+import SVGRendererExample from "./SVGRendererExample";
+import RefAccessExample from "./RefAccessExample";
+import DynamicUpdateExample from "./DynamicUpdateExample";
 
 const styles = {
   container: {
@@ -15,7 +19,8 @@ const styles = {
   },
   nav: {
     display: "flex",
-    gap: "15px",
+    flexWrap: "wrap" as const,
+    gap: "10px",
     marginBottom: "20px",
     padding: "15px",
     backgroundColor: "#f5f5f5",
@@ -39,11 +44,12 @@ const styles = {
 
 const Home = () => (
   <div style={styles.homeContainer}>
-    <h1>React ECharts Library Examples</h1>
+    <h1>React ECharts Library v1.1.0</h1>
     <p>
-      Select an example from the navigation above to see different ways to use
-      the library.
+      A modern React wrapper for Apache ECharts with TypeScript support, hooks,
+      and full React 18/19 compatibility.
     </p>
+
     <div style={{ marginTop: "30px" }}>
       <h2>Installation</h2>
       <pre
@@ -58,6 +64,36 @@ const Home = () => (
         npm install react-echarts-library echarts
       </pre>
     </div>
+
+    <div style={{ marginTop: "30px", textAlign: "left", maxWidth: 600, margin: "30px auto" }}>
+      <h2>New in v1.1.0</h2>
+      <ul style={{ lineHeight: 1.8 }}>
+        <li>
+          <strong>Loading State</strong> - <code>showLoading</code> and{" "}
+          <code>loadingOption</code> props
+        </li>
+        <li>
+          <strong>Renderer Selection</strong> - Choose between Canvas and SVG
+          with <code>opts</code>
+        </li>
+        <li>
+          <strong>Ref Access</strong> - <code>getEchartsInstance()</code> via
+          useRef
+        </li>
+        <li>
+          <strong>Update Control</strong> - <code>notMerge</code>,{" "}
+          <code>lazyUpdate</code>, <code>shouldSetOption</code>
+        </li>
+        <li>
+          <strong>Container Resize</strong> - ResizeObserver for better
+          responsiveness
+        </li>
+        <li>
+          <strong>HTML Attributes</strong> - Pass <code>data-testid</code>,{" "}
+          <code>aria-*</code>, etc.
+        </li>
+      </ul>
+    </div>
   </div>
 );
 
@@ -70,13 +106,25 @@ const App = () => {
             Home
           </Link>
           <Link to="/simple" style={styles.link}>
-            Simple Example
+            Simple
           </Link>
           <Link to="/multiple" style={styles.link}>
-            Multiple Charts
+            Charts
           </Link>
           <Link to="/dashboard" style={styles.link}>
             Dashboard
+          </Link>
+          <Link to="/loading" style={styles.link}>
+            Loading
+          </Link>
+          <Link to="/renderer" style={styles.link}>
+            SVG/Canvas
+          </Link>
+          <Link to="/ref" style={styles.link}>
+            Ref Access
+          </Link>
+          <Link to="/dynamic" style={styles.link}>
+            Dynamic
           </Link>
         </nav>
 
@@ -85,6 +133,10 @@ const App = () => {
           <Route path="/simple" element={<SimpleExample />} />
           <Route path="/multiple" element={<ReactEchartsExample />} />
           <Route path="/dashboard" element={<DashboardExample />} />
+          <Route path="/loading" element={<LoadingStateExample />} />
+          <Route path="/renderer" element={<SVGRendererExample />} />
+          <Route path="/ref" element={<RefAccessExample />} />
+          <Route path="/dynamic" element={<DynamicUpdateExample />} />
         </Routes>
       </div>
     </HashRouter>
