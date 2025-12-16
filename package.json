@@ -1,6 +1,6 @@
 {
   "name": "react-echarts-library",
-  "version": "1.2.0",
+  "version": "1.2.3",
   "description": "A modern React wrapper for Apache ECharts with TypeScript support, hooks, and full React 18/19 compatibility",
   "type": "module",
   "main": "dist/index.js",
