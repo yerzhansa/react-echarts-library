@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * EChartsCore - Tree-shakeable React wrapper for Apache ECharts
  *

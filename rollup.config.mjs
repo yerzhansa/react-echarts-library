@@ -31,6 +31,7 @@ const createOutput = (file, format) => ({
   sourcemap: true,
   exports: "named",
   globals,
+  banner: '"use client";',
 });
 
 // Helper to create plugins for JS bundles (no declarations - dts handles those)

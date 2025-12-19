@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * react-echarts-library - A modern React wrapper for Apache ECharts
  *
