@@ -2,11 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [1.3.0] - 2025-12-19
 
 ### Features
 
-- **v1.2.0:** Add tree-shakeable core export (`react-echarts-library/core`) and Storybook setup
+- **ECharts 6 Support:** Add ECharts 6.0 to peer dependencies (`^5.4.0 || ^6.0.0`)
+- **React Server Components:** Add `'use client'` directive for Next.js App Router compatibility
+
+### Changed
+
+- Configure Rollup to preserve `'use client'` directive in bundled output
+- Simplify chart cleanup - rely on ECharts `dispose()` for internal cleanup
+
+## [1.2.0]
+
+### Features
+
+- Add tree-shakeable core export (`react-echarts-library/core`) and Storybook setup
 
 - **v1.1.0:** Add production-ready features
   - Container-based resize detection using ResizeObserver
