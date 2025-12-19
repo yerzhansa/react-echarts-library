@@ -7,7 +7,7 @@
 [![React](https://img.shields.io/badge/React-16.8%2B%20%7C%2019-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![Storybook](https://img.shields.io/badge/Storybook-FF4785?logo=storybook&logoColor=white)](https://yerzhansa.github.io/react-echarts-library/)
 
-A modern, TypeScript-first React wrapper for Apache ECharts v5. Build beautiful, interactive charts with minimal setup.
+A modern, TypeScript-first React wrapper for Apache ECharts (v5 & v6). Build beautiful, interactive charts with minimal setup.
 
 [**View Live Demo →**](https://yerzhansa.github.io/react-echarts-library/)
 
