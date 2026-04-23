@@ -25,6 +25,7 @@ A modern, TypeScript-first React wrapper for Apache ECharts (v5 & v6). Build bea
   - [Themes](#themes)
   - [SVG Renderer](#svg-renderer)
   - [Accessibility](#accessibility)
+  - [useECharts Hook](#useecharts-hook)
 - [Tree-Shaking](#tree-shaking)
 - [Next.js & Server-Side Rendering](#nextjs--server-side-rendering)
 - [API Reference](#api-reference)
@@ -328,6 +329,50 @@ function AccessibleChart() {
 ```
 
 `aria.enabled` generates a descriptive summary that assistive technologies can read; `aria-label` and `role` on the container are passed straight through to the `<div>` via HTML attribute passthrough. If you use the tree-shakeable `/core` export, remember to `echarts.use([AriaComponent])` explicitly.
+
+### useECharts Hook
+
+If you want to own the container markup — for example, to nest the chart inside a styled card with a toolbar, or position a skeleton loader alongside it — use the `useECharts` hook directly. The hook provides the same lifecycle as `<EChartsReact>` (init, option updates, event binding, resize, teardown) but returns a ref callback plus an instance getter:
+
+```tsx
+import { useECharts } from 'react-echarts-library/core';
+import * as echarts from 'echarts/core';
+import { BarChart } from 'echarts/charts';
+import { GridComponent, TooltipComponent } from 'echarts/components';
+import { CanvasRenderer } from 'echarts/renderers';
+
+echarts.use([BarChart, GridComponent, TooltipComponent, CanvasRenderer]);
+
+function DashboardCard() {
+  const { containerRef, getInstance } = useECharts(echarts, {
+    option: {
+      xAxis: { type: 'category', data: ['A', 'B', 'C'] },
+      yAxis: { type: 'value' },
+      series: [{ type: 'bar', data: [10, 20, 30] }]
+    }
+  });
+
+  const handleReset = () => {
+    getInstance()?.dispatchAction({ type: 'restore' });
+  };
+
+  return (
+    <section className="card">
+      <header>
+        <strong>Sales by Region</strong>
+        <button onClick={handleReset}>Reset</button>
+      </header>
+      <div ref={containerRef} style={{ height: 320 }} />
+    </section>
+  );
+}
+```
+
+Accepts the same options as the component, minus container-level props (`style`, `className` — those belong on your own div). Also exported from the main entry:
+
+```tsx
+import { useECharts } from 'react-echarts-library';
+```
 
 ## Tree-Shaking
 
