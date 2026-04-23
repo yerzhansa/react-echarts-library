@@ -32,12 +32,19 @@ export {
 } from "./ReactEcharts";
 
 export { useECharts } from "./useECharts";
+export { exportToPNG, exportToSVG } from "./utils/export";
+export { useChartTheme } from "./utils/useChartTheme";
 
 export type {
   EChartsReactProps,
   EChartsReactRef,
   EChartsInitOpts,
   EChartsLoadingOption,
+  EChartsEventName,
+  EChartsEventHandler,
+  EChartsEventsMap,
 } from "./types";
 
 export type { UseEChartsOptions, UseEChartsReturn } from "./useECharts";
+export type { ExportImageOptions } from "./utils/export";
+export type { ChartTheme } from "./utils/useChartTheme";

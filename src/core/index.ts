@@ -33,6 +33,8 @@
  */
 export { EChartsCore, EChartsCore as default } from "../core";
 export { useECharts } from "../useECharts";
+export { exportToPNG, exportToSVG } from "../utils/export";
+export { useChartTheme } from "../utils/useChartTheme";
 
 export type {
   EChartsCoreProps,
@@ -40,6 +42,11 @@ export type {
   EChartsInitOpts,
   EChartsLoadingOption,
   EChartsCore as EChartsCoreType,
+  EChartsEventName,
+  EChartsEventHandler,
+  EChartsEventsMap,
 } from "../types";
 
 export type { UseEChartsOptions, UseEChartsReturn } from "../useECharts";
+export type { ExportImageOptions } from "../utils/export";
+export type { ChartTheme } from "../utils/useChartTheme";

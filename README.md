@@ -28,6 +28,10 @@ A modern, TypeScript-first React wrapper for Apache ECharts (v5 & v6). Build bea
   - [useECharts Hook](#useecharts-hook)
 - [Tree-Shaking](#tree-shaking)
 - [Next.js & Server-Side Rendering](#nextjs--server-side-rendering)
+- [Utilities](#utilities)
+  - [exportToPNG / exportToSVG](#exporttopng--exporttosvg)
+  - [useChartTheme](#usecharttheme)
+  - [Typed Events](#typed-events)
 - [API Reference](#api-reference)
   - [Props](#props)
   - [Ref Methods](#ref-methods)
@@ -450,6 +454,72 @@ export default function Chart({ option }: { option: EChartsOption }) {
 ### Container height note
 
 ECharts measures its container with `ResizeObserver`. During SSR the container has no measurable size until it mounts on the client — always give the container an explicit `height` (or a CSS `aspect-ratio`) so it doesn't collapse to zero on first paint. A collapsed container produces the familiar `[ECharts] Can't get DOM width or height` warning.
+
+## Utilities
+
+A handful of small helpers for the glue code that would otherwise repeat across every app. All exported from both entries.
+
+### exportToPNG / exportToSVG
+
+Wrap `chart.getDataURL()` with sensible defaults and optional auto-download:
+
+```tsx
+import { useRef } from 'react';
+import EChartsReact, { EChartsReactRef, exportToPNG, exportToSVG } from 'react-echarts-library';
+
+function ExportableChart() {
+  const chartRef = useRef<EChartsReactRef>(null);
+
+  const handleDownload = () => {
+    const chart = chartRef.current?.getEchartsInstance();
+    if (!chart) return;
+    exportToPNG(chart, { filename: 'sales.png', pixelRatio: 3 });
+  };
+
+  return (
+    <>
+      <button onClick={handleDownload}>Download PNG</button>
+      <EChartsReact ref={chartRef} option={option} style={{ height: 400 }} />
+    </>
+  );
+}
+```
+
+- **Without `filename`**, they return the data URL so you can embed it in an `<img>` or upload to a server.
+- **With `filename`**, they also trigger a browser download via an anchor click.
+- `exportToSVG` prefers `chart.renderToSVGString()` when the SVG renderer is in use, otherwise falls back to `getDataURL({ type: 'svg' })`.
+
+### useChartTheme
+
+Sync the chart's theme to the user's OS dark-mode preference:
+
+```tsx
+import EChartsReact, { useChartTheme } from 'react-echarts-library';
+
+function ThemedChart() {
+  const theme = useChartTheme();   // 'light' | 'dark', reacts to prefers-color-scheme
+  return <EChartsReact option={option} theme={theme} style={{ height: 400 }} />;
+}
+```
+
+Pass an override (`useChartTheme('dark')`) when your app already owns the theme state and you want to pipe it through. SSR-safe: returns `'light'` on the server and corrects on hydration.
+
+### Typed Events
+
+For IDE completion on event names, use `EChartsEventsMap` as the type of your handler map instead of the default loosely-typed `Record<string, …>`:
+
+```tsx
+import EChartsReact, { EChartsEventsMap } from 'react-echarts-library';
+
+const handlers: EChartsEventsMap = {
+  click: (params, chart) => { /* params: unknown — narrow with your chart's param shape */ },
+  legendselectchanged: (params) => { /* ... */ },
+};
+
+<EChartsReact option={option} onEvents={handlers} />
+```
+
+The existing loose `onEvents` prop type still works — `EChartsEventsMap` is an opt-in tighter alternative.
 
 ## API Reference
 

@@ -113,3 +113,66 @@ export interface EChartsReactRef {
 
 // Re-export echarts types for convenience
 export type { EChartsType, EChartsOption };
+
+/**
+ * Known ECharts event names. Use with `EChartsEventsMap` for stronger typing
+ * on the `onEvents` prop than the default `Record<string, …>` accepts.
+ */
+export type EChartsEventName =
+  | "click"
+  | "dblclick"
+  | "mousedown"
+  | "mousemove"
+  | "mouseup"
+  | "mouseover"
+  | "mouseout"
+  | "globalout"
+  | "contextmenu"
+  | "highlight"
+  | "downplay"
+  | "legendselectchanged"
+  | "legendselected"
+  | "legendunselected"
+  | "legendscroll"
+  | "datazoom"
+  | "datarangeselected"
+  | "timelinechanged"
+  | "timelineplaychanged"
+  | "restore"
+  | "dataviewchanged"
+  | "magictypechanged"
+  | "geoselectchanged"
+  | "geoselected"
+  | "geounselected"
+  | "axisareaselected"
+  | "brush"
+  | "brushselected"
+  | "globalcursortaken"
+  | "rendered"
+  | "finished";
+
+/**
+ * Signature for a single event handler. Consumers can narrow the `params`
+ * type based on their known chart configuration.
+ */
+export type EChartsEventHandler<P = unknown> = (
+  params: P,
+  chart: EChartsType
+) => void;
+
+/**
+ * Opt-in stricter typing for the `onEvents` prop. Use when you want IDE
+ * completion for event names instead of a bare string map.
+ *
+ * @example
+ * ```tsx
+ * const handlers: EChartsEventsMap = {
+ *   click: (params, chart) => { ... },
+ *   legendselectchanged: (params) => { ... },
+ * };
+ * <EChartsReact option={option} onEvents={handlers} />
+ * ```
+ */
+export type EChartsEventsMap = Partial<
+  Record<EChartsEventName, EChartsEventHandler>
+>;
