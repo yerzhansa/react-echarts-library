@@ -19,3 +19,7 @@ yarn-error.log*
 
 # Claude
 .claude/settings.local.json
+
+# Planning docs (local only)
+/docs
+
