@@ -17,6 +17,10 @@ All notable changes to this project will be documented in this file.
 - Storybook `Charts/Gallery` section with 8 new examples: scatter, radar, heatmap, gauge, sankey, funnel, candlestick, and treemap. Each ships realistic sample data — copy, paste, substitute.
 - New `useECharts` hook for consumers who want to own the container markup. Provides the same lifecycle as `<EChartsReact>` (init, option updates, event binding, resize, teardown) and returns a ref callback plus an instance getter. Exported from both `react-echarts-library` and `react-echarts-library/core`.
 - New `Features/useECharts Hook` Storybook section with two examples: basic usage and a card with an integrated toolbar.
+- New utility helpers exported from both entries: `exportToPNG(chart, opts?)` and `exportToSVG(chart, opts?)` wrap `chart.getDataURL()` with sensible defaults and optional browser auto-download when a `filename` is supplied.
+- New `useChartTheme(override?)` hook for OS `prefers-color-scheme` sync — returns `'light' | 'dark'`, reacts to system theme changes, SSR-safe.
+- New opt-in typed event helpers: `EChartsEventName`, `EChartsEventHandler<P>`, `EChartsEventsMap`. The existing `onEvents` prop type is unchanged; `EChartsEventsMap` is an opt-in stricter alternative for IDE completion on event names.
+- New `Features/Utilities` Storybook section demonstrating PNG/SVG export with auto-download and dark-mode syncing.
 
 ### Changed
 
