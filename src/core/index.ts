@@ -32,6 +32,8 @@
  * ```
  */
 export { EChartsCore, EChartsCore as default } from "../core";
+export { useECharts } from "../useECharts";
+
 export type {
   EChartsCoreProps,
   EChartsReactRef,
@@ -39,3 +41,5 @@ export type {
   EChartsLoadingOption,
   EChartsCore as EChartsCoreType,
 } from "../types";
+
+export type { UseEChartsOptions, UseEChartsReturn } from "../useECharts";

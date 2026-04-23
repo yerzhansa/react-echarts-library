@@ -31,9 +31,13 @@ export {
   EChartsReact as default,
 } from "./ReactEcharts";
 
+export { useECharts } from "./useECharts";
+
 export type {
   EChartsReactProps,
   EChartsReactRef,
   EChartsInitOpts,
   EChartsLoadingOption,
 } from "./types";
+
+export type { UseEChartsOptions, UseEChartsReturn } from "./useECharts";

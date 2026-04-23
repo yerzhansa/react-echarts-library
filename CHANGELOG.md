@@ -15,11 +15,18 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Storybook `Charts/Gallery` section with 8 new examples: scatter, radar, heatmap, gauge, sankey, funnel, candlestick, and treemap. Each ships realistic sample data — copy, paste, substitute.
+- New `useECharts` hook for consumers who want to own the container markup. Provides the same lifecycle as `<EChartsReact>` (init, option updates, event binding, resize, teardown) and returns a ref callback plus an instance getter. Exported from both `react-echarts-library` and `react-echarts-library/core`.
+- New `Features/useECharts Hook` Storybook section with two examples: basic usage and a card with an integrated toolbar.
+
+### Changed
+
+- Internal: `EChartsCore` component refactored to delegate its lifecycle to the new `useECharts` hook — no behavior change, no public API change. Deduplicates the lifecycle logic between the hook and the component.
 
 ### Docs
 
 - README: new **Accessibility** subsection showing how to enable ECharts' `AriaComponent` and pass ARIA attributes through the container.
 - README: new **Next.js & Server-Side Rendering** section covering App Router server-component usage, `next/dynamic` for bundle deferral, and the SSR container-height pitfall.
+- README: new **useECharts Hook** subsection under Examples.
 
 ## [1.3.0] - 2025-12-19
 

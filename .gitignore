@@ -23,3 +23,6 @@ yarn-error.log*
 # Planning docs (local only)
 /docs
 
+# Storybook static build output
+/storybook-static
+
