@@ -8,16 +8,16 @@ export const resizeObserverInstances: Array<{
   disconnect: ReturnType<typeof vi.fn>;
 }> = [];
 
-// Mock ResizeObserver
-const ResizeObserverMock = vi.fn().mockImplementation(() => {
-  const instance = {
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  };
-  resizeObserverInstances.push(instance);
-  return instance;
-});
+// Mock ResizeObserver as a real constructor — Vitest 4's vi.fn() no longer
+// coerces to a constructor when called via `new`.
+class ResizeObserverMock {
+  observe = vi.fn();
+  unobserve = vi.fn();
+  disconnect = vi.fn();
+  constructor() {
+    resizeObserverInstances.push(this);
+  }
+}
 
 vi.stubGlobal("ResizeObserver", ResizeObserverMock);
 
