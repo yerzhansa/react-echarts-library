@@ -336,7 +336,16 @@ function AccessibleChart() {
 
 ### useECharts Hook
 
-If you want to own the container markup — for example, to nest the chart inside a styled card with a toolbar, or position a skeleton loader alongside it — use the `useECharts` hook directly. The hook provides the same lifecycle as `<EChartsReact>` (init, option updates, event binding, resize, teardown) but returns a ref callback plus an instance getter:
+If you want to own the container markup — for example, to nest the chart inside a styled card with a toolbar, or position a skeleton loader alongside it — use the `useECharts` hook directly. The hook provides the same lifecycle as `<EChartsReact>` (init, option updates, event binding, resize, teardown) but returns a ref callback plus an instance getter.
+
+It accepts the same options as the component, minus container-level props (`style`, `className` — those belong on your own div). Exported from both entries:
+
+```tsx
+import { useECharts } from 'react-echarts-library';         // full bundle
+import { useECharts } from 'react-echarts-library/core';    // tree-shakeable
+```
+
+#### Minimal usage
 
 ```tsx
 import { useECharts } from 'react-echarts-library/core';
@@ -347,8 +356,8 @@ import { CanvasRenderer } from 'echarts/renderers';
 
 echarts.use([BarChart, GridComponent, TooltipComponent, CanvasRenderer]);
 
-function DashboardCard() {
-  const { containerRef, getInstance } = useECharts(echarts, {
+function SimpleChart() {
+  const { containerRef } = useECharts(echarts, {
     option: {
       xAxis: { type: 'category', data: ['A', 'B', 'C'] },
       yAxis: { type: 'value' },
@@ -356,15 +365,32 @@ function DashboardCard() {
     }
   });
 
-  const handleReset = () => {
-    getInstance()?.dispatchAction({ type: 'restore' });
+  return <div ref={containerRef} style={{ height: 320 }} />;
+}
+```
+
+#### With a toolbar (imperative actions)
+
+The `getInstance` return value gives access to the underlying ECharts instance for imperative calls like `dispatchAction`, `getDataURL`, or `resize`:
+
+```tsx
+function DashboardCard() {
+  const { containerRef, getInstance } = useECharts(echarts, { option });
+
+  const handleReset = () => getInstance()?.dispatchAction({ type: 'restore' });
+  const handleExport = () => {
+    const url = getInstance()?.getDataURL({ type: 'png', pixelRatio: 2 });
+    if (url) window.open(url);
   };
 
   return (
     <section className="card">
-      <header>
+      <header style={{ display: 'flex', justifyContent: 'space-between' }}>
         <strong>Sales by Region</strong>
-        <button onClick={handleReset}>Reset</button>
+        <div>
+          <button onClick={handleReset}>Reset</button>
+          <button onClick={handleExport}>Export</button>
+        </div>
       </header>
       <div ref={containerRef} style={{ height: 320 }} />
     </section>
@@ -372,10 +398,71 @@ function DashboardCard() {
 }
 ```
 
-Accepts the same options as the component, minus container-level props (`style`, `className` — those belong on your own div). Also exported from the main entry:
+#### With a loading skeleton
+
+Because you own the markup, you can swap a skeleton in for the chart while data loads — no hiding-tricks on the chart's container required:
 
 ```tsx
-import { useECharts } from 'react-echarts-library';
+function ChartWithSkeleton({ data, isLoading }) {
+  const option = useMemo(() => ({
+    xAxis: { type: 'category', data: data?.labels ?? [] },
+    yAxis: { type: 'value' },
+    series: [{ type: 'line', data: data?.values ?? [] }]
+  }), [data]);
+
+  const { containerRef } = useECharts(echarts, { option });
+
+  return (
+    <div className="card" style={{ height: 360 }}>
+      {isLoading ? (
+        <div className="skeleton" style={{ height: 320, borderRadius: 8 }} />
+      ) : (
+        <div ref={containerRef} style={{ height: 320 }} />
+      )}
+    </div>
+  );
+}
+```
+
+#### Reacting to external state
+
+Pass a memoized `option` and the hook re-runs `setOption` automatically on change. Combine with `useChartTheme` for OS-synced light/dark:
+
+```tsx
+import { useECharts, useChartTheme } from 'react-echarts-library/core';
+
+function LiveChart({ metric }: { metric: number[] }) {
+  const theme = useChartTheme();                            // 'light' | 'dark'
+  const option = useMemo(() => ({
+    xAxis: { type: 'category', data: metric.map((_, i) => i) },
+    yAxis: { type: 'value' },
+    series: [{ type: 'line', data: metric, smooth: true }]
+  }), [metric]);
+
+  const { containerRef } = useECharts(echarts, { option, theme });
+
+  return <div ref={containerRef} style={{ height: 320 }} />;
+}
+```
+
+#### Event handling
+
+Pass an `onEvents` map just like on the component — with `EChartsEventsMap` for tighter typing:
+
+```tsx
+import { useECharts } from 'react-echarts-library/core';
+import type { EChartsEventsMap } from 'react-echarts-library/core';
+
+function ClickableChart() {
+  const handlers: EChartsEventsMap = {
+    click: (params) => { console.log('clicked', params); },
+    legendselectchanged: (params) => { console.log('legend', params); }
+  };
+
+  const { containerRef } = useECharts(echarts, { option, onEvents: handlers });
+
+  return <div ref={containerRef} style={{ height: 320 }} />;
+}
 ```
 
 ## Tree-Shaking
