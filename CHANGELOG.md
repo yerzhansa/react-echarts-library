@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - New `useChartTheme(override?)` hook for OS `prefers-color-scheme` sync — returns `'light' | 'dark'`, reacts to system theme changes, SSR-safe.
 - New opt-in typed event helpers: `EChartsEventName`, `EChartsEventHandler<P>`, `EChartsEventsMap`. The existing `onEvents` prop type is unchanged; `EChartsEventsMap` is an opt-in stricter alternative for IDE completion on event names.
 - New `Features/Utilities` Storybook section demonstrating PNG/SVG export with auto-download and dark-mode syncing.
+- New `Features/Advanced` Storybook section with 6 examples of ECharts' non-obvious capabilities: dataset + transform, interactive dataZoom (slider + inside), real-time streaming (60-point rolling window), custom HTML tooltip formatter, linked charts via `dispatchAction`, and progressive rendering of 50,000 scatter points.
 
 ### Changed
 
@@ -30,7 +31,8 @@ All notable changes to this project will be documented in this file.
 
 - README: new **Accessibility** subsection showing how to enable ECharts' `AriaComponent` and pass ARIA attributes through the container.
 - README: new **Next.js & Server-Side Rendering** section covering App Router server-component usage, `next/dynamic` for bundle deferral, and the SSR container-height pitfall.
-- README: new **useECharts Hook** subsection under Examples.
+- README: new **useECharts Hook** subsection under Examples, expanded with five complete examples — minimal usage, imperative toolbar actions, loading skeleton swap, reacting to external state combined with `useChartTheme`, and typed event handling via `EChartsEventsMap`.
+- README: new **Utilities** section documenting `exportToPNG` / `exportToSVG`, `useChartTheme`, and the opt-in `EChartsEventsMap` typing.
 
 ## [1.3.0] - 2025-12-19
 
