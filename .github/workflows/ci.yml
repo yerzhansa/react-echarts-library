@@ -7,8 +7,13 @@ on:
     branches: [main]
 
 jobs:
-  ci:
+  test:
+    name: test (echarts ${{ matrix.echarts }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        echarts: ['5.6.0', '6.0.0']
 
     steps:
       - uses: actions/checkout@v4
@@ -17,9 +22,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
+
+      - name: Override echarts version
+        run: npm install --no-save echarts@${{ matrix.echarts }}
+
+      - name: Show resolved echarts version
+        run: node -p "require('echarts/package.json').version"
 
       - name: Run tests
         run: npm test
