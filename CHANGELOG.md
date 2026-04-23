@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Dev deps refresh: Storybook 8 → 10 (`@storybook/react`, `@storybook/react-vite`, `storybook`), added `@storybook/addon-a11y` for built-in accessibility audits in Storybook; Vitest 2 → 4 (`vitest`, `vitest-canvas-mock`); `@vitejs/plugin-react` 4 → 5; `jsdom` 25 → 29; `typescript` 5.7 → 5.9; `prettier` 3.4 → 3.8; Rollup plugin bumps (`@rollup/plugin-commonjs` 28 → 29, `@rollup/plugin-node-resolve` 15 → 16, `rollup-plugin-dts` 6.1 → 6.4); `echarts` devDep aligned to `^6.0.0`. Removed retired `@storybook/test`, and the legacy addons (`addon-links`, `addon-essentials`, `addon-interactions`) which no longer exist as separate packages in Storybook 10.
+- `.storybook/main.ts` simplified to just the `addon-a11y` entry (Storybook 10 has the former essentials/links/interactions content baked into core).
+- `vitest.setup.ts`: ResizeObserver mock converted to a class constructor — Vitest 4's `vi.fn().mockImplementation(...)` no longer behaves as a constructor when invoked via `new`.
+- `release.yml`: drop the `push.tags: v*` trigger and keep only `release.types: [published]`. Previously both triggers fired on tag + Release creation, causing a duplicate `npm publish` attempt with a 403. Future releases: use `gh release create vX.Y.Z` (creates the tag and Release in one step).
+
+### Fixed
+
+- `npm audit` at zero vulnerabilities (was 14 on the old Storybook 8 / Vitest 2 stack).
+
 ## [1.4.0] - 2026-04-23
 
 ### Removed
