@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.4.0] - 2026-04-23
+
 ### Removed
 
 - Drop deprecated `@types/echarts` dependency. ECharts 5+ ships its own types from `echarts` / `echarts/core`; the v4 DefinitelyTyped package was unused by this library and could shadow modern types for consumers. Users who relied on the global `echarts` ambient namespace should import `EChartsOption` / `EChartsType` from `echarts` directly.
