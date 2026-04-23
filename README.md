@@ -24,7 +24,9 @@ A modern, TypeScript-first React wrapper for Apache ECharts (v5 & v6). Build bea
   - [Loading State](#loading-state)
   - [Themes](#themes)
   - [SVG Renderer](#svg-renderer)
+  - [Accessibility](#accessibility)
 - [Tree-Shaking](#tree-shaking)
+- [Next.js & Server-Side Rendering](#nextjs--server-side-rendering)
 - [API Reference](#api-reference)
   - [Props](#props)
   - [Ref Methods](#ref-methods)
@@ -293,6 +295,40 @@ function SVGChart() {
 }
 ```
 
+### Accessibility
+
+ECharts ships an `AriaComponent` — it's pre-registered in the full bundle of this library. Enable it by setting `aria.enabled: true` on your chart option, and pass through standard ARIA attributes at the container level:
+
+```tsx
+import EChartsReact from 'react-echarts-library';
+
+function AccessibleChart() {
+  const option = {
+    aria: {
+      enabled: true,
+      label: {
+        description:
+          'Monthly sales from January through June, ranging from 70 to 200 units.'
+      }
+    },
+    xAxis: { type: 'category', data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'] },
+    yAxis: { type: 'value' },
+    series: [{ type: 'bar', data: [120, 200, 150, 80, 70, 110] }]
+  };
+
+  return (
+    <EChartsReact
+      option={option}
+      aria-label="Monthly sales bar chart"
+      role="img"
+      style={{ height: 400 }}
+    />
+  );
+}
+```
+
+`aria.enabled` generates a descriptive summary that assistive technologies can read; `aria-label` and `role` on the container are passed straight through to the `<div>` via HTML attribute passthrough. If you use the tree-shakeable `/core` export, remember to `echarts.use([AriaComponent])` explicitly.
+
 ## Tree-Shaking
 
 For smaller bundle sizes, use the `/core` export and register only the chart types you need:
@@ -323,6 +359,52 @@ function OptimizedChart() {
 **Bundle size comparison:**
 - Full bundle (`react-echarts-library`): ~1MB
 - Tree-shaken (`react-echarts-library/core`): ~150KB (depends on charts used)
+
+## Next.js & Server-Side Rendering
+
+This library ships the `'use client'` directive in its bundled output, so you can import it directly from a Next.js App Router server component without any wrapping:
+
+```tsx
+// app/dashboard/page.tsx — this file is a Server Component by default
+import EChartsReact from 'react-echarts-library';
+
+export default function DashboardPage() {
+  const option = {
+    xAxis: { type: 'category', data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
+    yAxis: { type: 'value' },
+    series: [{ type: 'line', data: [150, 230, 224, 218, 135] }]
+  };
+
+  return <EChartsReact option={option} style={{ height: 400 }} />;
+}
+```
+
+React will transition the chart to a Client Component at the `'use client'` boundary, and the chart renders on the client where the DOM and Canvas/SVG APIs are available.
+
+### When to use a dynamic import
+
+If you want to defer loading the library entirely — for example, to keep it out of the initial bundle for pages that don't always need charts — wrap with `next/dynamic`:
+
+```tsx
+'use client';
+import dynamic from 'next/dynamic';
+import type { EChartsOption } from 'echarts';
+
+const EChartsReact = dynamic(() => import('react-echarts-library'), {
+  ssr: false,
+  loading: () => <div style={{ height: 400 }}>Loading chart…</div>
+});
+
+export default function Chart({ option }: { option: EChartsOption }) {
+  return <EChartsReact option={option} style={{ height: 400 }} />;
+}
+```
+
+`ssr: false` skips the server render pass — useful when the parent component is itself a Client Component and you want to avoid downloading the chart library until it's needed.
+
+### Container height note
+
+ECharts measures its container with `ResizeObserver`. During SSR the container has no measurable size until it mounts on the client — always give the container an explicit `height` (or a CSS `aspect-ratio`) so it doesn't collapse to zero on first paint. A collapsed container produces the familiar `[ECharts] Can't get DOM width or height` warning.
 
 ## API Reference
 
